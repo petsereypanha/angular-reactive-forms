@@ -19,41 +19,41 @@ table {
   text-align: left;
   width: 100%;
   border-collapse: collapse;
-}
 
-tr {
-  cursor: pointer;
-}
+  tr {
+    cursor: pointer;
 
-tr:hover {
-  background-color: #eee;
-}
+    &:hover {
+      background-color: #eee;
+    }
+  }
 
-th,
-td {
-  padding: 5px;
-  border: 1px solid #fff;
-}
+  th,
+  td {
+    padding: 5px;
+    border: 1px solid #fff;
 
-th:first-child,
-td:first-child {
-  border-left: none;
-}
+    &:first-child {
+      border-left: none;
+    }
 
-th:last-child,
-td:last-child {
-  border-right: none;
-}
+    &:last-child {
+      border-right: none;
+    }
+  }
 
-th {
-  background-color: var(--color-primary);
-  color: var(--font-color-dark-bg);
+  th {
+    background-color: var(--color-primary);
+    color: var(--font-color-dark-bg);
+  }
 }
 
 .center {
   text-align: center;
 }
 
-button.add-contact {
-  margin-top: 10px;
+button {
+  &.add-contact {
+    margin-top: 10px;
+  }
 }

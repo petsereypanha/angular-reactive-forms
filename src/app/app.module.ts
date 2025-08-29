@@ -3,14 +3,18 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import {ContactListModule} from './modules/contact-list/contact-list.module';
+import {EditContactModule} from './modules/edit-contact/edit-contact.module';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ContactListModule,
+    EditContactModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

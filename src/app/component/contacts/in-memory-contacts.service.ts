@@ -6,6 +6,7 @@ export class InMemoryContactsApi implements InMemoryDbService {
     let contacts: Contact[] = [
       {
         id: '5CehW',
+        icon: 'person-01.png',
         personal: true,
         firstName: 'Percival',
         lastName: 'Doodleplumb',
@@ -23,6 +24,7 @@ export class InMemoryContactsApi implements InMemoryDbService {
       },
       {
         id: 'A6rwe',
+        icon: 'person-02.png',
         personal: false,
         firstName: 'Mortimer',
         lastName: 'Flungford',
@@ -40,6 +42,7 @@ export class InMemoryContactsApi implements InMemoryDbService {
       },
       {
         id: '3bNGA',
+        icon: 'person-03.png',
         personal: true,
         firstName: 'Wanda',
         lastName: 'Giggleworth',

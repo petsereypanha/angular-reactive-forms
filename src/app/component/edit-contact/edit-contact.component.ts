@@ -3,7 +3,6 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ContactsService} from '../contacts/contacts.service';
 import {addressTypes, phoneTypes} from '../contacts/contact.model';
-import {DatePipe} from '@angular/common';
 import {restrictedWords} from '../../validators/restricted-words.validator';
 
 @Component({
@@ -21,9 +20,10 @@ export class EditContactComponent implements OnInit {
   contactForm = this.fb.nonNullable.group({
     id : '',
     personal : false,
+    icon: '',
     firstName : ['', [Validators.required, Validators.minLength(4)]],
     lastName : ['', [Validators.required, Validators.minLength(4)]],
-    dateOfBirth : '',
+    dateOfBirth : <Date | null> null,
     favoritesRanking : <number | null> null,
     phone : this.fb.nonNullable.group({
       phoneNumber : '',
@@ -47,13 +47,8 @@ export class EditContactComponent implements OnInit {
     this.contactsService.getContact(contactId).subscribe(contact => {
       if (!contact) return;
 
-      const formattedContact = {
-        ...contact,
-        dateOfBirth: this.formatDateForInput(contact.dateOfBirth)
-      };
-
-      this.contactForm.setValue(formattedContact);
-      console.info(this.contactForm.controls.dateOfBirth.value);
+      this.contactForm.setValue(contact);
+      console.info(this.contactForm.controls.icon.value);
     })
   }
 
@@ -74,10 +69,5 @@ export class EditContactComponent implements OnInit {
   }
   get notes() {
     return this.contactForm.controls.notes;
-  }
-  private formatDateForInput(dateValue: Date | string | null): string {
-    if (!dateValue) return '';
-    const date = new Date(dateValue);
-    return date.toISOString().split('T')[0]; // Returns YYYY-MM-DD format
   }
 }

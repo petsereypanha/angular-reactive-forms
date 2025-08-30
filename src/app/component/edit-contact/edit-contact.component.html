@@ -6,12 +6,13 @@
     <section>
       <nav>Name/Info</nav>
       <div>
-        <input formControlName="firstName" placeholder="First Name" />
-        <input formControlName="lastName" placeholder="Last Name" />
-        <input type="date"
-               formControlName="dateOfBirth"
-               value="{{contactForm.controls.dateOfBirth.value | date:'yyyy-MM-dd'}}"
-               />
+        <input formControlName="firstName" [class.error]="firstName.invalid && firstName.touched" placeholder="First Name" />
+        @if(firstName.errors?.['required'] && firstName.touched) {<em >Please enter a first Name</em>}
+        @if(firstName.errors?.['minlength'] && firstName.touched) {<em >First name must be 3 characters</em>}
+        <input formControlName="lastName" [class.error]="lastName.invalid && lastName.touched" placeholder="Last Name" />
+        @if(lastName.errors?.['required'] && lastName.touched) {<em >Please enter a first Name</em>}
+        @if(lastName.errors?.['minlength'] && lastName.touched) {<em >First name must be 3 characters</em>}
+        <input formControlName="dateOfBirth" [value]="contactForm.controls.dateOfBirth.value | date:'yyyy-MM-dd'" type="date" placeholder="Date of Birth" />
         <div>
           <span>Favorites Ranking:</span>
           <input formControlName="favoritesRanking"  type="range" min="0" max="5" placeholder="Favorites Ranking" />
@@ -39,7 +40,7 @@
     <section>
       <nav>Address</nav>
       <div>
-        <div formGroupName="address" class="address">
+        <div formGroupName="address" class="address" [class.error]="address.invalid && address.dirty">
           <div class="flex-group">
             <input formControlName="streetAddress" placeholder="Address" />
             <img src="/assets/plus-grey-blue.png" class="add" />
@@ -51,17 +52,19 @@
             <option *ngFor="let address of addressTypes" [value]="address.value">{{address.title}}</option>
           </select>
         </div>
+        @if (address.invalid && address.dirty){<em >Incompleted address</em>}
       </div>
     </section>
     <section>
       <nav>Note</nav>
       <div>
-        <textarea placeholder="Note" name="note" rows="3" formControlName="notes"></textarea>
+        <textarea placeholder="Note" name="note" [class]="notes.invalid" rows="3" formControlName="notes"></textarea>
+        @if (notes.errors?.['restrictedWords']){<em>Restrict word found: {{notes.errors?.['restrictedWords'].value}}</em>}
       </div>
     </section>
     <div class="buttons">
       <button class="secondary">Cancel</button>
-      <button class="primary" type="submit">Save</button>
+      <button class="primary" type="submit" [disabled]="contactForm.invalid" >Save</button>
     </div>
   </form>
 </div>

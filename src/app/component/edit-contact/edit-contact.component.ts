@@ -1,9 +1,10 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {FormBuilder, ReactiveFormsModule} from '@angular/forms';
+import {FormBuilder, FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ContactsService} from '../contacts/contacts.service';
 import {addressTypes, phoneTypes} from '../contacts/contact.model';
 import {DatePipe} from '@angular/common';
+import {restrictedWords} from '../../validators/restricted-words.validator';
 
 @Component({
   selector: 'app-edit-contact',
@@ -20,22 +21,22 @@ export class EditContactComponent implements OnInit {
   contactForm = this.fb.nonNullable.group({
     id : '',
     personal : false,
-    firstName : '',
-    lastName : '',
-    dateOfBirth : <Date | null> null,
+    firstName : ['', [Validators.required, Validators.minLength(4)]],
+    lastName : ['', [Validators.required, Validators.minLength(4)]],
+    dateOfBirth : '',
     favoritesRanking : <number | null> null,
     phone : this.fb.nonNullable.group({
       phoneNumber : '',
       phoneType : '',
     }),
     address : this.fb.nonNullable.group({
-      streetAddress : '',
-      city : '',
-      state : '',
-      postalCode : '',
-      addressType : '',
+      streetAddress : ['', Validators.required],
+      city : ['', Validators.required],
+      state : ['', Validators.required],
+      postalCode : ['', Validators.required],
+      addressType : ['', Validators.required],
     }),
-    notes : '',
+    notes : ['',restrictedWords(['foo','bar'])],
   });
 
   constructor() {}
@@ -46,7 +47,12 @@ export class EditContactComponent implements OnInit {
     this.contactsService.getContact(contactId).subscribe(contact => {
       if (!contact) return;
 
-      this.contactForm.setValue(contact);
+      const formattedContact = {
+        ...contact,
+        dateOfBirth: this.formatDateForInput(contact.dateOfBirth)
+      };
+
+      this.contactForm.setValue(formattedContact);
       console.info(this.contactForm.controls.dateOfBirth.value);
     })
   }
@@ -57,4 +63,21 @@ export class EditContactComponent implements OnInit {
     });
   }
 
+  get firstName() {
+    return this.contactForm.controls.firstName;
+  }
+  get lastName() {
+    return this.contactForm.controls.lastName;
+  }
+  get address() {
+    return this.contactForm.controls.address;
+  }
+  get notes() {
+    return this.contactForm.controls.notes;
+  }
+  private formatDateForInput(dateValue: Date | string | null): string {
+    if (!dateValue) return '';
+    const date = new Date(dateValue);
+    return date.toISOString().split('T')[0]; // Returns YYYY-MM-DD format
+  }
 }

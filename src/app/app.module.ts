@@ -5,7 +5,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {ContactListModule} from './modules/contact-list/contact-list.module';
 import {EditContactModule} from './modules/edit-contact/edit-contact.module';
-
 @NgModule({
   declarations: [
     AppComponent,

@@ -33,11 +33,15 @@
             <input formControlName="phoneNumber" placeholder="Phone" />
             <img src="/assets/plus-grey-blue.png" class="add" (click)="addPhone()"/>
           </div>
+          <em *ngIf="phone.controls.phoneNumber.invalid">Preferred phone is required  </em>
           <div class="radio">
-          <span *ngFor="let type of phoneTypes">
-            <input formControlName="phoneType" type="radio" [value]="type.value"> {{type.title}}
-          </span>
+            <span *ngFor="let type of phoneTypes">
+              <input formControlName="phoneType" type="radio" [value]="type.value"> {{type.title}}
+            </span>
           </div>
+          <span>
+            <input type="checkbox" formControlName="preferred" /> Preferred
+          </span>
         </div>
       </div>
     </section>
